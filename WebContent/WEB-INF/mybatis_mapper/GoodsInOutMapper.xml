@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="workshop.repository.GoodsInOutMapper" >
+  <resultMap id="BaseResultMap" type="workshop.model.GoodsInOut" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="batchNo" property="batchno" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="total" property="total" jdbcType="DECIMAL" />
+    <result column="add_phone" property="addPhone" jdbcType="VARCHAR" />
+    <result column="add_user_name" property="addUserName" jdbcType="VARCHAR" />
+    <result column="up_down_id" property="upDownId" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="direction" property="direction" jdbcType="VARCHAR" />
+    <result column="out_business_name" property="outBusinessName" jdbcType="VARCHAR" />
+    <result column="out_business_address" property="outBusinessAddress" jdbcType="VARCHAR" />
+    <result column="out_business_phone" property="outBusinessPhone" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+   <resultMap id="BaseResultMap2" type="workshop.model.GoodsInReport" >
+    <result column="totalMoney" property="totalMoney" jdbcType="DECIMAL" />
+    <result column="product_name" property="product_name" jdbcType="VARCHAR" />
+    <result column="total_num" property="num" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, product_id, product_name, batchNo, num, total, add_phone, add_user_name, up_down_id, 
+    dept_name, direction, out_business_name, out_business_address, out_business_phone, 
+    addtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_in_out
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="searchBySql" resultMap="BaseResultMap"
+		parameterType="java.lang.String" statementType="STATEMENT">
+		 <![CDATA[${sql}]]>
+
+	</select>
+	
+   <select id="searchGroup1" resultMap="BaseResultMap2" >
+		
+		select product_name,sum(num) as total_num,sum(total) as totalMoney   from goods_in_out
+		where direction='${direction}' and addtime between '${beg_time}' and '${end_time} 23:59:59'
+		 group by product_name
+
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_in_out
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="workshop.model.GoodsInOut" >
+    insert into goods_in_out (id, product_id, product_name, 
+      batchNo, num, total, 
+      add_phone, add_user_name, up_down_id, 
+      dept_name, direction, out_business_name, 
+      out_business_address, out_business_phone, addtime
+      )
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, 
+      #{batchno,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{total,jdbcType=DECIMAL}, 
+      #{addPhone,jdbcType=VARCHAR}, #{addUserName,jdbcType=VARCHAR}, #{upDownId,jdbcType=VARCHAR}, 
+      #{deptName,jdbcType=VARCHAR}, #{direction,jdbcType=VARCHAR}, #{outBusinessName,jdbcType=VARCHAR}, 
+      #{outBusinessAddress,jdbcType=VARCHAR}, #{outBusinessPhone,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="workshop.model.GoodsInOut" >
+    insert into goods_in_out
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="batchno != null" >
+        batchNo,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="addPhone != null" >
+        add_phone,
+      </if>
+      <if test="addUserName != null" >
+        add_user_name,
+      </if>
+      <if test="upDownId != null" >
+        up_down_id,
+      </if>
+      <if test="deptName != null" >
+        dept_name,
+      </if>
+      <if test="direction != null" >
+        direction,
+      </if>
+      <if test="outBusinessName != null" >
+        out_business_name,
+      </if>
+      <if test="outBusinessAddress != null" >
+        out_business_address,
+      </if>
+      <if test="outBusinessPhone != null" >
+        out_business_phone,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="batchno != null" >
+        #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="addPhone != null" >
+        #{addPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addUserName != null" >
+        #{addUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="upDownId != null" >
+        #{upDownId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="outBusinessName != null" >
+        #{outBusinessName,jdbcType=VARCHAR},
+      </if>
+      <if test="outBusinessAddress != null" >
+        #{outBusinessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="outBusinessPhone != null" >
+        #{outBusinessPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="workshop.model.GoodsInOut" >
+    update goods_in_out
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="batchno != null" >
+        batchNo = #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="addPhone != null" >
+        add_phone = #{addPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addUserName != null" >
+        add_user_name = #{addUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="upDownId != null" >
+        up_down_id = #{upDownId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        direction = #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="outBusinessName != null" >
+        out_business_name = #{outBusinessName,jdbcType=VARCHAR},
+      </if>
+      <if test="outBusinessAddress != null" >
+        out_business_address = #{outBusinessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="outBusinessPhone != null" >
+        out_business_phone = #{outBusinessPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="workshop.model.GoodsInOut" >
+    update goods_in_out
+    set product_id = #{productId,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      batchNo = #{batchno,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      total = #{total,jdbcType=DECIMAL},
+      add_phone = #{addPhone,jdbcType=VARCHAR},
+      add_user_name = #{addUserName,jdbcType=VARCHAR},
+      up_down_id = #{upDownId,jdbcType=VARCHAR},
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      direction = #{direction,jdbcType=VARCHAR},
+      out_business_name = #{outBusinessName,jdbcType=VARCHAR},
+      out_business_address = #{outBusinessAddress,jdbcType=VARCHAR},
+      out_business_phone = #{outBusinessPhone,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

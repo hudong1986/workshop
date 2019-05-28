@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="workshop.repository.SalaryMapper" >
+  <resultMap id="BaseResultMap" type="workshop.model.Salary" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="up_down_id" property="upDownId" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="fix_money" property="fixMoney" jdbcType="DECIMAL" />
+    <result column="fix_money_des" property="fixMoneyDes" jdbcType="VARCHAR" />
+    <result column="achievement" property="achievement" jdbcType="DECIMAL" />
+    <result column="achievement_des" property="achievementDes" jdbcType="VARCHAR" />
+    <result column="holiday_reduce" property="holidayReduce" jdbcType="DECIMAL" />
+    <result column="holiday_des" property="holidayDes" jdbcType="VARCHAR" />
+    <result column="add_work" property="addWork" jdbcType="DECIMAL" />
+    <result column="add_work_des" property="addWorkDes" jdbcType="VARCHAR" />
+    <result column="fuli_money" property="fuliMoney" jdbcType="DECIMAL" />
+    <result column="fuli_des" property="fuliDes" jdbcType="VARCHAR" />
+    <result column="reward_money" property="rewardMoney" jdbcType="DECIMAL" />
+    <result column="reward_des" property="rewardDes" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="DECIMAL" />
+    <result column="month" property="month" jdbcType="VARCHAR" />
+    <result column="other_reduce" property="otherReduce" jdbcType="DECIMAL" />
+    <result column="other_reduce_des" property="otherReduceDes" jdbcType="VARCHAR" />
+    <result column="other_add" property="otherAdd" jdbcType="DECIMAL" />
+    <result column="other_add_des" property="otherAddDes" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="add_user_id" property="addUserId" jdbcType="INTEGER" />
+    <result column="add_user_name" property="addUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap2" type="workshop.model.SalaryReport" >
+    <result column="dept_name" property="dept_name" jdbcType="VARCHAR" />
+    <result column="toalMoney" property="toalMoney" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, user_id, phone, user_name, up_down_id, dept_name, fix_money, fix_money_des, achievement, 
+    achievement_des, holiday_reduce, holiday_des, add_work, add_work_des, fuli_money, 
+    fuli_des, reward_money, reward_des, total, month, other_reduce, other_reduce_des, 
+    other_add, other_add_des, addtime, add_user_id, add_user_name
+  </sql>
+  
+  <select id="searchGroup1" resultMap="BaseResultMap2" >
+		
+		select dept_name,sum(total) as toalMoney  from salary
+		where 
+		 <![CDATA[up_down_id like '%${up_down_id}%']]>
+		 and  month ='${month}'
+		 group by dept_name
+
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from salary
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="searchBySql" resultMap="BaseResultMap"
+		parameterType="java.lang.String" statementType="STATEMENT">
+		 <![CDATA[${sql}]]>
+
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from salary
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="workshop.model.Salary" >
+    insert into salary (id, user_id, phone, 
+      user_name, up_down_id, dept_name, 
+      fix_money, fix_money_des, achievement, 
+      achievement_des, holiday_reduce, holiday_des, 
+      add_work, add_work_des, fuli_money, 
+      fuli_des, reward_money, reward_des, 
+      total, month, other_reduce, 
+      other_reduce_des, other_add, other_add_des, 
+      addtime, add_user_id, add_user_name
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{upDownId,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{fixMoney,jdbcType=DECIMAL}, #{fixMoneyDes,jdbcType=VARCHAR}, #{achievement,jdbcType=DECIMAL}, 
+      #{achievementDes,jdbcType=VARCHAR}, #{holidayReduce,jdbcType=DECIMAL}, #{holidayDes,jdbcType=VARCHAR}, 
+      #{addWork,jdbcType=DECIMAL}, #{addWorkDes,jdbcType=VARCHAR}, #{fuliMoney,jdbcType=DECIMAL}, 
+      #{fuliDes,jdbcType=VARCHAR}, #{rewardMoney,jdbcType=DECIMAL}, #{rewardDes,jdbcType=VARCHAR}, 
+      #{total,jdbcType=DECIMAL}, #{month,jdbcType=VARCHAR}, #{otherReduce,jdbcType=DECIMAL}, 
+      #{otherReduceDes,jdbcType=VARCHAR}, #{otherAdd,jdbcType=DECIMAL}, #{otherAddDes,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{addUserId,jdbcType=INTEGER}, #{addUserName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="workshop.model.Salary" >
+    insert into salary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="upDownId != null" >
+        up_down_id,
+      </if>
+      <if test="deptName != null" >
+        dept_name,
+      </if>
+      <if test="fixMoney != null" >
+        fix_money,
+      </if>
+      <if test="fixMoneyDes != null" >
+        fix_money_des,
+      </if>
+      <if test="achievement != null" >
+        achievement,
+      </if>
+      <if test="achievementDes != null" >
+        achievement_des,
+      </if>
+      <if test="holidayReduce != null" >
+        holiday_reduce,
+      </if>
+      <if test="holidayDes != null" >
+        holiday_des,
+      </if>
+      <if test="addWork != null" >
+        add_work,
+      </if>
+      <if test="addWorkDes != null" >
+        add_work_des,
+      </if>
+      <if test="fuliMoney != null" >
+        fuli_money,
+      </if>
+      <if test="fuliDes != null" >
+        fuli_des,
+      </if>
+      <if test="rewardMoney != null" >
+        reward_money,
+      </if>
+      <if test="rewardDes != null" >
+        reward_des,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="month != null" >
+        month,
+      </if>
+      <if test="otherReduce != null" >
+        other_reduce,
+      </if>
+      <if test="otherReduceDes != null" >
+        other_reduce_des,
+      </if>
+      <if test="otherAdd != null" >
+        other_add,
+      </if>
+      <if test="otherAddDes != null" >
+        other_add_des,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="addUserId != null" >
+        add_user_id,
+      </if>
+      <if test="addUserName != null" >
+        add_user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="upDownId != null" >
+        #{upDownId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="fixMoney != null" >
+        #{fixMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="fixMoneyDes != null" >
+        #{fixMoneyDes,jdbcType=VARCHAR},
+      </if>
+      <if test="achievement != null" >
+        #{achievement,jdbcType=DECIMAL},
+      </if>
+      <if test="achievementDes != null" >
+        #{achievementDes,jdbcType=VARCHAR},
+      </if>
+      <if test="holidayReduce != null" >
+        #{holidayReduce,jdbcType=DECIMAL},
+      </if>
+      <if test="holidayDes != null" >
+        #{holidayDes,jdbcType=VARCHAR},
+      </if>
+      <if test="addWork != null" >
+        #{addWork,jdbcType=DECIMAL},
+      </if>
+      <if test="addWorkDes != null" >
+        #{addWorkDes,jdbcType=VARCHAR},
+      </if>
+      <if test="fuliMoney != null" >
+        #{fuliMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="fuliDes != null" >
+        #{fuliDes,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardMoney != null" >
+        #{rewardMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="rewardDes != null" >
+        #{rewardDes,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="otherReduce != null" >
+        #{otherReduce,jdbcType=DECIMAL},
+      </if>
+      <if test="otherReduceDes != null" >
+        #{otherReduceDes,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAdd != null" >
+        #{otherAdd,jdbcType=DECIMAL},
+      </if>
+      <if test="otherAddDes != null" >
+        #{otherAddDes,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserId != null" >
+        #{addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="addUserName != null" >
+        #{addUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="workshop.model.Salary" >
+    update salary
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="upDownId != null" >
+        up_down_id = #{upDownId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="fixMoney != null" >
+        fix_money = #{fixMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="fixMoneyDes != null" >
+        fix_money_des = #{fixMoneyDes,jdbcType=VARCHAR},
+      </if>
+      <if test="achievement != null" >
+        achievement = #{achievement,jdbcType=DECIMAL},
+      </if>
+      <if test="achievementDes != null" >
+        achievement_des = #{achievementDes,jdbcType=VARCHAR},
+      </if>
+      <if test="holidayReduce != null" >
+        holiday_reduce = #{holidayReduce,jdbcType=DECIMAL},
+      </if>
+      <if test="holidayDes != null" >
+        holiday_des = #{holidayDes,jdbcType=VARCHAR},
+      </if>
+      <if test="addWork != null" >
+        add_work = #{addWork,jdbcType=DECIMAL},
+      </if>
+      <if test="addWorkDes != null" >
+        add_work_des = #{addWorkDes,jdbcType=VARCHAR},
+      </if>
+      <if test="fuliMoney != null" >
+        fuli_money = #{fuliMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="fuliDes != null" >
+        fuli_des = #{fuliDes,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardMoney != null" >
+        reward_money = #{rewardMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="rewardDes != null" >
+        reward_des = #{rewardDes,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="month != null" >
+        month = #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="otherReduce != null" >
+        other_reduce = #{otherReduce,jdbcType=DECIMAL},
+      </if>
+      <if test="otherReduceDes != null" >
+        other_reduce_des = #{otherReduceDes,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAdd != null" >
+        other_add = #{otherAdd,jdbcType=DECIMAL},
+      </if>
+      <if test="otherAddDes != null" >
+        other_add_des = #{otherAddDes,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addUserId != null" >
+        add_user_id = #{addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="addUserName != null" >
+        add_user_name = #{addUserName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="workshop.model.Salary" >
+    update salary
+    set user_id = #{userId,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      up_down_id = #{upDownId,jdbcType=VARCHAR},
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      fix_money = #{fixMoney,jdbcType=DECIMAL},
+      fix_money_des = #{fixMoneyDes,jdbcType=VARCHAR},
+      achievement = #{achievement,jdbcType=DECIMAL},
+      achievement_des = #{achievementDes,jdbcType=VARCHAR},
+      holiday_reduce = #{holidayReduce,jdbcType=DECIMAL},
+      holiday_des = #{holidayDes,jdbcType=VARCHAR},
+      add_work = #{addWork,jdbcType=DECIMAL},
+      add_work_des = #{addWorkDes,jdbcType=VARCHAR},
+      fuli_money = #{fuliMoney,jdbcType=DECIMAL},
+      fuli_des = #{fuliDes,jdbcType=VARCHAR},
+      reward_money = #{rewardMoney,jdbcType=DECIMAL},
+      reward_des = #{rewardDes,jdbcType=VARCHAR},
+      total = #{total,jdbcType=DECIMAL},
+      month = #{month,jdbcType=VARCHAR},
+      other_reduce = #{otherReduce,jdbcType=DECIMAL},
+      other_reduce_des = #{otherReduceDes,jdbcType=VARCHAR},
+      other_add = #{otherAdd,jdbcType=DECIMAL},
+      other_add_des = #{otherAddDes,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      add_user_id = #{addUserId,jdbcType=INTEGER},
+      add_user_name = #{addUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,63 @@
+<!DOCTYPE tiles-definitions PUBLIC
+      "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+      "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="template" template="/WEB-INF/views/template1.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
+		<put-attribute name="side" value="/WEB-INF/views/side.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
+	</definition>
+
+	<definition name="single_template" template="/WEB-INF/views/singlepage.jsp">
+	</definition>
+
+	<definition name="home" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/home.jsp" />
+	</definition>
+
+	<definition name="login" extends="single_template">
+		<put-attribute name="content" value="/WEB-INF/views/login.jsp" />
+	</definition>
+
+	<definition name="user/list" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/webuser/list.jsp" />
+	</definition>
+	<definition name="user/modifyPwd" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/webuser/modifyPwd.jsp" />
+	</definition>
+
+	<definition name="system/list" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/system/list.jsp" />
+	</definition>
+	<definition name="attendance/list" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/attendance/list.jsp" />
+	</definition>
+	<definition name="reward/list" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/reward/list.jsp" />
+	</definition>
+	<definition name="product/list" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/product/list.jsp" />
+	</definition>
+	<definition name="finish_statistic/list" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/finish_statistic/list.jsp" />
+	</definition>
+	<definition name="salary/list" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/salary/list.jsp" />
+	</definition>
+	<definition name="goods_in_out/list" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/goods_in_out/list.jsp" />
+	</definition>
+	<definition name="report/statistic" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/report/statistic.jsp" />
+	</definition>
+	<definition name="report/goods_in_out" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/report/goods_in_out.jsp" />
+	</definition>
+	<definition name="report/salary" extends="template">
+		<put-attribute name="content" value="/WEB-INF/views/report/salary.jsp" />
+	</definition>
+
+
+</tiles-definitions>
